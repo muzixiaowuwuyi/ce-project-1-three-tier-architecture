@@ -1,0 +1,15 @@
+# 依赖库
+node_modules/
+
+# 日志文件
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+
+# 敏感信息（如果你本地有 .env 文件）
+.env
+*.pem

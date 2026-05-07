@@ -1,0 +1,13 @@
+{
+  "name": "ce-project-1-three-tier",
+  "version": "1.0.0",
+  "description": "AWS 3-Tier Architecture Project",
+  "main": "app/server.js",
+  "scripts": {
+    "start": "node app/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
