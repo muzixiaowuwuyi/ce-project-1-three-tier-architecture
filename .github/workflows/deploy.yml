@@ -7,6 +7,13 @@ on:
 jobs:
   deploy:
     runs-on: self-hosted
+    
+    # Map GitHub Secrets to Environment Variables for the application
+    env:
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_NAME: ${{ secrets.DB_NAME }}
 
     steps:
       - name: Checkout code
@@ -32,10 +39,10 @@ jobs:
 
       - name: Install dependencies and Restart App
         run: |
-          # Navigate to the app directory if necessary
-          # cd path/to/your/app
+          # Install production dependencies
           npm install
-          
+
           # Restart the application using PM2
-          # It will try to restart, and if the process doesn't exist, it will start it.
+          # It will attempt to restart the existing process; 
+          # if it doesn't exist, it will start a new one.
           pm2 restart server || pm2 start app/server.js --name server
