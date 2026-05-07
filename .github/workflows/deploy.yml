@@ -39,10 +39,12 @@ jobs:
 
       - name: Install dependencies and Restart App
         run: |
-          # Install production dependencies
+          # Use the built-in GITHUB_WORKSPACE variable to find the root
+          cd ${{ github.workspace }}
+          
+          # Install dependencies in the current directory
           npm install
 
-          # Restart the application using PM2
-          # It will attempt to restart the existing process; 
-          # if it doesn't exist, it will start a new one.
-          pm2 restart server || pm2 start app/server.js --name server
+          # Stop the old process if it exists, then start the new one using the full path
+          pm2 delete server || true
+          pm2 start app/server.js --name server
