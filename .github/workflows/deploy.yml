@@ -1,0 +1,41 @@
+name: Deploy to Amazon EC2
+
+on:
+  push:
+    branches: [ "main" ] # Triggered when you push to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Deploy to EC2 via SSH
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.REMOTE_HOST }}      # Your EC2 Public IP (EIP)
+        username: ec2-user
+        key: ${{ secrets.EC2_SSH_KEY }}       # Your stored PEM key content
+        script: |
+          # 1. Enter the project directory (clone it first if the directory doesn't exist)
+          cd /home/ec2-user
+          if [ ! -d "ce-project-1-three-tier-architecture" ]; then
+            git clone https://github.com/${{ github.repository }}.git
+            cd ce-project-1-three-tier-architecture
+          else
+            cd ce-project-1-three-tier-architecture
+            git pull origin main
+          fi
+
+          # 2. Install dependencies and start the application
+          # Note: We need to load the nvm or node path in the script to ensure commands are available
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" 
+          
+          npm install
+          
+          # Start or restart using PM2; --name is used for easier management
+          pm2 delete server 2>/dev/null || true
+          pm2 start app/server.js --name server
