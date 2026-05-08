@@ -1,0 +1,37 @@
+============================================================
+PROJECT DOCUMENT: instances.txt
+============================================================
+Architecture: 4-Node Auto Scaling Group (App Tier)
+Region      : eu-central-1 (Frankfurt)
+Date        : 2026-05-08
+------------------------------------------------------------
+
+[1. INSTANCE LIST]
+
+- Name: app-tier-asg | ID: i-056270416580b60dc | Type: t3.micro | AZ: eu-central-1b | Status: Healthy
+- Name: app-tier-asg | ID: i-0af609eea885772a9 | Type: t3.micro | AZ: eu-central-1a | Status: Healthy
+- Name: app-tier-asg | ID: i-0ef9303886704d15a | Type: t3.micro | AZ: eu-central-1a | Status: Healthy
+- Name: app-tier-asg | ID: i-0f1d3af54242d8b8b | Type: t3.micro | AZ: eu-central-1b | Status: Healthy
+
+------------------------------------------------------------
+
+[2. DEPLOYMENT CONFIGURATION]
+
+* Custom AMI: App-Tier-Template-v1 (Amazon Linux 2023)
+* IAM Role  : EC2-SSM-Role (AmazonSSMManagedInstanceCore)
+* SG Group  : app-tier-sg (Inbound: 3000 | Outbound: 3306, 443)
+* ASG Policy: Desired: 4 | Min: 2 | Max: 5
+* LB Target : Registered with 'app-tier-targets' (Port 3000)
+
+------------------------------------------------------------
+
+[3. ARCHITECTURAL NOTES]
+
+1. SECURITY: All nodes reside in Private Subnets. No direct SSH access. 
+   Management via AWS Systems Manager (SSM).
+2. HIGH AVAILABILITY: Balanced distribution across Availability 
+   Zones (1a and 1b) to prevent single point of failure.
+3. CI/CD: Each node runs a Self-hosted GitHub Actions Runner for 
+   automated code synchronization.
+
+============================================================

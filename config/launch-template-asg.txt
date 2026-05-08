@@ -1,0 +1,27 @@
+============================================================
+PROJECT DOCUMENT: launch-template-asg.txt
+============================================================
+
+
+[1. LAUNCH TEMPLATE DETAILS]
+
+- Name: app-tier-template
+- AMI: App-Tier-Template-v1 (Custom Node.js/PM2/Runner)
+- Instance Type: t3.micro
+- IAM Instance Profile: EC2-SSM-Role
+- User Data Script: 
+  * Automated environment variable injection (DB_HOST, etc.)
+  * PM2 process auto-restart with updated environment
+
+------------------------------------------------------------
+
+[2. AUTO SCALING GROUP DETAILS]
+
+- Name: app-tier-asg
+- Desired Capacity: 4
+- Min Capacity: 2
+- Max Capacity: 5
+- Health Check Type: ELB (60s warmup)
+- Update Strategy: Rolling Update (Instance Refresh)
+
+============================================================

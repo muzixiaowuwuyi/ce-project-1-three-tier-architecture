@@ -1,0 +1,28 @@
+============================================================
+PROJECT DOCUMENT: security-groups.txt
+============================================================
+Scope: Network Security Isolation
+VPC  : vpc-0c60f1655cb53a5a3
+------------------------------------------------------------
+
+[1. SG-ALB (Load Balancer SG)]
+- Inbound: 
+  * TCP 80 | 0.0.0.0/0 (Public Internet)
+- Outbound:
+  * TCP 3000 | To SG-App (Forward traffic)
+
+[2. SG-App (Application Tier SG)]
+- Inbound:
+  * TCP 3000 | From SG-ALB (Allowed only from LB)
+  * TCP 22   | From My IP (Management - Optional)
+- Outbound:
+  * TCP 3306 | To SG-DB (Database access)
+  * TCP 443  | To 0.0.0.0/0 (GitHub Actions & SSM)
+
+[3. SG-DB (Database Tier SG)]
+- Inbound:
+  * TCP 3306 | From SG-App (Allowed only from App tier)
+- Outbound:
+  * None (Restricted)
+
+============================================================

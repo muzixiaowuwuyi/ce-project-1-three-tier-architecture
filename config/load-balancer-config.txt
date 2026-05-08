@@ -1,0 +1,38 @@
+============================================================
+PROJECT DOCUMENT: load-balancer.txt
+============================================================
+Component: Elastic Load Balancer (Application Type)
+Name     : three-tier-alb
+DNS Name : three-tier-alb-1379769650.eu-central-1.elb.amazonaws.com
+------------------------------------------------------------
+
+[1. LISTENER CONFIGURATION]
+
+- Protocol: HTTP
+- Port: 80
+- Default Action: Forward to 'app-tier-targets'
+
+------------------------------------------------------------
+
+[2. TARGET GROUP DETAILS]
+
+- Name: app-tier-targets
+- Target Type: Instances
+- Protocol: HTTP
+- Port: 3000
+- VPC: vpc-0c60f1655cb53a5a3
+
+------------------------------------------------------------
+
+[3. HEALTH CHECK SETTINGS]
+
+- Protocol: HTTP
+- Path: /health        (Root path)
+- Port: traffic port (3000)
+- Healthy threshold: 5 consecutive successes
+- Unhealthy threshold: 2 consecutive failures
+- Timeout: 5 seconds
+- Interval: 30 seconds
+- Success codes: 200
+
+============================================================

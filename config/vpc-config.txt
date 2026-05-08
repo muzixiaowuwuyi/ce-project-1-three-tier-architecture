@@ -1,0 +1,41 @@
+============================================================
+PROJECT DOCUMENT: vpc-config.txt
+============================================================
+VPC Name: AWS-project-vpc
+VPC ID  : vpc-0c60f1655cb53a5a3
+CIDR    : 10.0.0.0/16
+------------------------------------------------------------
+
+[1. SUBNET ARCHITECTURE (Based on Resource Map)]
+
+- Public Subnets (Connected to IGW):
+  * public-subnet-1a  | 10.0.1.0/24 | AZ: eu-central-1a
+  * public-subnet-1b  | 10.0.2.0/24 | AZ: eu-central-1b
+
+- Private Subnets (For App Tier):
+  * private-subnet-1a | 10.0.11.0/24 | AZ: eu-central-1a
+  * private-subnet-1b | 10.0.12.0/24 | AZ: eu-central-1b
+
+- Data Subnets (For RDS Tier):
+  * data-subnet-1a    | 10.0.21.0/24 | AZ: eu-central-1a
+  * data-subnet-1b    | 10.0.22.0/24 | AZ: eu-central-1b
+
+------------------------------------------------------------
+
+[2. NETWORK CONNECTIONS & ROUTING]
+
+- Internet Gateway (IGW): bootcamp-igw
+  * Associated with: public-rt
+  * Function: Provides internet access for Load Balancer.
+
+- NAT Gateway: Project-NAT-GW (with EIP)
+  * Associated with: private-rt
+  * Function: Allows App instances in private subnets to pull 
+    updates/code from GitHub Actions (Outbound only).
+
+- Route Tables:
+  * public-rt  : Targets 'bootcamp-igw' for 0.0.0.0/0
+  * private-rt : Targets 'Project-NAT-GW' for 0.0.0.0/0
+  * rtb-0770af262a8e50af1 : Default/Local routing
+
+============================================================
