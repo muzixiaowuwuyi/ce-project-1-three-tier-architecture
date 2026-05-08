@@ -52,7 +52,7 @@
 
 <body>
     <div class="container">
-        <h1>AWS 3-Tier Architecture Demo</h1>
+        <h1>AWS 3-Tier Architecture Project</h1>
 
         <div class="section">
             <h3>Add New User</h3>
@@ -67,11 +67,6 @@
             <ul id="userList"></ul>
         </div>
 
-        <!-- <div class="section">
-            <h3>Database Records</h3>
-            <button onclick="fetchUsers()" style="background: #28a745;">Get Data</button>
-            <ul id="userList"></ul>
-        </div> -->
     </div>
 
     <script>
@@ -110,20 +105,20 @@
         }
 
         // Function to clear all data
-    async function clearDatabase() {
-        if (!confirm('Are you sure you want to delete ALL records?')) return;
+        async function clearDatabase() {
+            if (!confirm('Are you sure you want to delete ALL records?')) return;
 
-        const res = await fetch('/api/users/clear', {
-            method: 'DELETE'
-        });
+            const res = await fetch('/api/users/clear', {
+                method: 'DELETE'
+            });
 
-        if (res.ok) {
-            alert('Database is now empty!');
-            fetchUsers(); // Refresh the list to show it's empty
-        } else {
-            alert('Error clearing database');
+            if (res.ok) {
+                alert('Database is now empty!');
+                fetchUsers(); // Refresh the list to show it's empty
+            } else {
+                alert('Error clearing database');
+            }
         }
-    }
     </script>
 </body>
 
