@@ -1,22 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>AWS 3-Tier Demo</title>
     <style>
-        body { font-family: sans-serif; padding: 50px; background: #f4f4f4; }
-        .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .section { margin-bottom: 20px; padding: 15px; border-bottom: 1px solid #eee; }
-        input { padding: 8px; width: 200px; }
-        button { padding: 8px 15px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 4px; }
-        ul { list-style: none; padding: 0; }
-        li { padding: 8px; border-bottom: 1px solid #ddd; }
+        body {
+            font-family: sans-serif;
+            padding: 50px;
+            background: #f4f4f4;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        input {
+            padding: 8px;
+            width: 200px;
+        }
+
+        button {
+            padding: 8px 15px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>AWS 3-Tier Architecture Demo</h1>
-        
+
         <div class="section">
             <h3>Add New User</h3>
             <input type="text" id="userName" placeholder="Enter name here...">
@@ -26,8 +63,15 @@
         <div class="section">
             <h3>Database Records</h3>
             <button onclick="fetchUsers()" style="background: #28a745;">Get Data</button>
+            <button onclick="clearDatabase()" style="background: #dc3545; margin-left: 10px;">Clean Database</button>
             <ul id="userList"></ul>
         </div>
+
+        <!-- <div class="section">
+            <h3>Database Records</h3>
+            <button onclick="fetchUsers()" style="background: #28a745;">Get Data</button>
+            <ul id="userList"></ul>
+        </div> -->
     </div>
 
     <script>
@@ -64,6 +108,23 @@
                 alert('Error saving data');
             }
         }
+
+        // Function to clear all data
+    async function clearDatabase() {
+        if (!confirm('Are you sure you want to delete ALL records?')) return;
+
+        const res = await fetch('/api/users/clear', {
+            method: 'DELETE'
+        });
+
+        if (res.ok) {
+            alert('Database is now empty!');
+            fetchUsers(); // Refresh the list to show it's empty
+        } else {
+            alert('Error clearing database');
+        }
+    }
     </script>
 </body>
+
 </html>

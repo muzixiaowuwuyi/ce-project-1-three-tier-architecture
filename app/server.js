@@ -96,6 +96,18 @@ app.post('/api/users', (req, res) => {
     });
 });
 
+// DELETE Endpoint: Clear all records from the users table
+app.delete('/api/users/clear', (req, res) => {
+    const query = 'TRUNCATE TABLE users'; // TRUNCATE is faster and resets ID counter to 1
+    pool.query(query, (err, result) => {
+        if (err) {
+            console.error('Database clear error:', err);
+            return res.status(500).json({ error: 'Failed to clear database' });
+        }
+        res.json({ message: 'Database cleared successfully' });
+    });
+});
+
 // Health check for ALB
 app.get('/health', (req, res) => {
     res.status(200).send('OK');
